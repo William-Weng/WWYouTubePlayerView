@@ -8,11 +8,13 @@
 ![SPM](https://img.shields.io/badge/SPM-supported-brightgreen.svg)
 [![LICENSE](https://img.shields.io/badge/LICENSE-MIT-yellow.svg?style=flat)](https://developer.apple.com/swift/)
 
-`WWYouTubePlayerView` is a UIKit player view that wraps the YouTube IFrame Player API using `WKWebView`.
+`WWYouTubePlayerView` is a UIKit player view that wraps the [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) using `WKWebView`.
 
 It provides video loading, playback controls, volume and playback-rate settings, playback information queries, and delegate events for player state, playback time, and errors through `PlayerViewDelegate`.
 
-## 📦 Installation
+https://github.com/user-attachments/assets/86d92c3d-cd19-44c4-8c28-9f9451bc290d
+
+## 📦 [Installation](https://github.com/youtube/youtube-ios-player-helper)
 
 ### Swift Package Manager
 
@@ -32,7 +34,7 @@ After installation, import the package into your target:
 import WWYouTubePlayerView
 ```
 
-## 📚 API Overview
+## 📚 [API Overview](https://www.letswrite.tw/youtube-iframe-api/)
 
 ### Public Properties
 

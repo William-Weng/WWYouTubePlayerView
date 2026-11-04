@@ -8,11 +8,13 @@
 ![SPM](https://img.shields.io/badge/SPM-supported-brightgreen.svg)
 [![LICENSE](https://img.shields.io/badge/LICENSE-MIT-yellow.svg?style=flat)](https://developer.apple.com/swift/)
 
-`WWYouTubePlayerView` 是一個以 `WKWebView` 封裝 YouTube IFrame Player API 的 UIKit 播放器 View。
+`WWYouTubePlayerView` 是一個以 `WKWebView` 封裝 [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) 的 UIKit 播放器 View。
 
 它提供影片載入、播放控制、音量與播放速率設定、播放資訊查詢，以及透過 `PlayerViewDelegate` 接收播放器狀態、時間與錯誤事件。
 
-## 📦 安裝設定
+https://github.com/user-attachments/assets/86d92c3d-cd19-44c4-8c28-9f9451bc290d
+
+## 📦 [安裝設定](https://github.com/youtube/youtube-ios-player-helper)
 
 ### 使用 Swift Package Manager
 
@@ -32,7 +34,7 @@
 import WWYouTubePlayerView
 ```
 
-## 📚 API 總覽
+## 📚 [API 總覽](https://www.letswrite.tw/youtube-iframe-api/)
 
 ### 公開參數
 

@@ -1,0 +1,15 @@
+{
+  "originHash" : "faa6dfd4abd9cba4b00885f79d7955a02e69fd7ca3dd074293045350e8b099c6",
+  "pins" : [
+    {
+      "identity" : "wwyoutubeplayerview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWYouTubePlayerView",
+      "state" : {
+        "revision" : "e6e590b1ed03d35d862dde1625789db283be2d8b",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		81F25B83309B16F9008D0D7D /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 81F25B82309B16F9008D0D7D /* WWYouTubePlayerView */; };
+		81C31915309B33C100B916FD /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 81C31914309B33C100B916FD /* WWYouTubePlayerView */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +39,7 @@
 		812A749E307F5FC800287876 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
-				81F25B83309B16F9008D0D7D /* WWYouTubePlayerView in Frameworks */,
+				81C31915309B33C100B916FD /* WWYouTubePlayerView in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -87,7 +87,7 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				81F25B82309B16F9008D0D7D /* WWYouTubePlayerView */,
+				81C31914309B33C100B916FD /* WWYouTubePlayerView */,
 			);
 			productName = Example;
 			productReference = 812A74A1307F5FC800287876 /* Example.app */;
@@ -118,7 +118,7 @@
 			mainGroup = 812A7498307F5FC800287876;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				81F25B7E309B16AA008D0D7D /* XCLocalSwiftPackageReference "../../@WWYouTubePlayerView" */,
+				81C31913309B33C100B916FD /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 812A74A2307F5FC800287876 /* Products */;
@@ -363,17 +363,21 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		81F25B7E309B16AA008D0D7D /* XCLocalSwiftPackageReference "../../@WWYouTubePlayerView" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../@WWYouTubePlayerView";
+/* Begin XCRemoteSwiftPackageReference section */
+		81C31913309B33C100B916FD /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/William-Weng/WWYouTubePlayerView";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.0;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		81F25B82309B16F9008D0D7D /* WWYouTubePlayerView */ = {
+		81C31914309B33C100B916FD /* WWYouTubePlayerView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81F25B7E309B16AA008D0D7D /* XCLocalSwiftPackageReference "../../@WWYouTubePlayerView" */;
+			package = 81C31913309B33C100B916FD /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */;
 			productName = WWYouTubePlayerView;
 		};
 /* End XCSwiftPackageProductDependency section */
