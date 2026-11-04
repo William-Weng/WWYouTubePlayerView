@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+        <style>
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background: #000;
+            }
+
+            #player {
+                width: 100%;
+                height: 100%;
+            }
+
+            iframe {
+                display: block;
+                border: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="player"></div>
+
+        <script>
+            var player = null;
+            var playerReady = false;
+            var timeInterval = null;
+
+            /**
+             * 將播放器事件傳送至 Swift。
+             *
+             * @param {string} event 事件名稱。
+             * @param {*} data 事件資料。
+             */
+            function send(event, data) {
+                window.webkit.messageHandlers.youtubePlayer.postMessage({event: event, data: data});
+            }
+
+            /**
+             * IFrame API 載入完成後，建立播放器。
+            */
+            window.onYouTubeIframeAPIReady = function() {
+                
+                var configuration = __PLAYER_CONFIGURATION_JSON__;
+
+                configuration.events = {
+                    
+                    onReady: function(event) {
+                        
+                        playerReady = true;
+                        send("ready", null);
+
+                        if (timeInterval !== null) { clearInterval(timeInterval); }
+
+                        timeInterval = setInterval(function() {
+                            if (!playerReady || !player) { return; }
+                            var time = player.getCurrentTime();
+                            if (typeof time === "number" && Number.isFinite(time)) { send("time", time); }
+                        }, 1000);
+                    },
+
+                    onStateChange: function(event) {
+                        send("state", event.data);
+                    },
+
+                    onError: function(event) {
+                        send("youtubeError", event.data);
+                    }
+                };
+
+                player = new YT.Player( "player", configuration);
+            };
+
+            window.addEventListener("error", function(event) {
+                send("scriptError", event.message || "Unknown JavaScript error");
+            });
+
+            window.addEventListener("pagehide", function() {
+                if (timeInterval !== null) {
+                    clearInterval(timeInterval);
+                    timeInterval = null;
+                }
+            });
+
+            // 先註冊 callback，再載入 IFrame API。
+            var script = document.createElement("script");
+            script.src = "https://www.youtube.com/iframe_api";
+
+            script.onerror = function() {
+                send("scriptError", "Failed to load YouTube IFrame API");
+            };
+
+            document.head.appendChild(script);
+        </script>
+    </body>
+</html>
