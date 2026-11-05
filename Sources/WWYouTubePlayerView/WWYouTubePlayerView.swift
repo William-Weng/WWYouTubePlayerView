@@ -378,7 +378,7 @@ private extension WWYouTubePlayerView {
         case .youtubeError:
             let code = (body["data"] as? NSNumber)?.intValue ?? -1
             log("Raw onError: \(code)")
-            delegate?.playerView(self, didFailWith: .youTube(code: code))
+            delegate?.playerView(self, didFailWith: .youTube(code))
             
         case .scriptError:
             let message = body["data"] as? String ?? "Unknown JavaScript error"
