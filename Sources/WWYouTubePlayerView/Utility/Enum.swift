@@ -19,7 +19,7 @@ enum ReceiveEvent: String {
     case scriptError        // HTML 頁面回報 JavaScript 執行或 API 載入錯誤
 }
 
-/// 播放器支援的控制方法。
+/// 播放器支援的控制方法
 ///
 /// 原始值對應 JavaScript 播放器的方法名稱，供內部指令流程組合呼叫內容
 enum ControlMethod: String {
