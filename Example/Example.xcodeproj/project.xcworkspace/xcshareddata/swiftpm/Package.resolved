@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/William-Weng/WWYouTubePlayerView",
       "state" : {
-        "revision" : "a0baf2a8d3b4fde3a97939ae76cb5bdddd6947fd",
-        "version" : "1.0.3"
+        "revision" : "ddc0e038b606d4c750e5b70926fd1310b0431b2e",
+        "version" : "1.0.4"
       }
     }
   ],

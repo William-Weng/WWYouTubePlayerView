@@ -82,8 +82,8 @@ public extension WWYouTubePlayerView {
     ///
     /// - Parameter url: 要解析的 YouTube 網址字串（允許帶有前後空格或額外的追蹤參數）
     /// - Returns: 成功提取則回傳 11 碼的影片 ID 字串（String）；若網址格式不符或解析失敗則回傳 `nil`
-    static func parseVideoID(url: String) -> String? {
-        url.extractYouTubeVideoID()
+    static func parseVideoId(url: String) -> String? {
+        url.extractYouTubeVideoId()
     }
 }
 

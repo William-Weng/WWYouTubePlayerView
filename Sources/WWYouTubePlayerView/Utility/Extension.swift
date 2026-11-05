@@ -62,7 +62,7 @@ extension String {
     /// 從 YouTube 網址中解析出 Video ID
     ///
     /// - Returns: 成功解析則返回 11 碼的 Video ID 字串，失敗則返回 nil
-    func extractYouTubeVideoID() -> String? {
+    func extractYouTubeVideoId() -> String? {
         
         let trimmed = trimmingCharacters(in: .whitespacesAndNewlines)
         
