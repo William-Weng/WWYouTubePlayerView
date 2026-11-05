@@ -371,14 +371,14 @@ private extension WWYouTubePlayerView {
             log("State: \(state), raw: \(rawValue)")
             delegate?.playerView(self, didChangeTo: state)
             
-        case .youtubeError:
-            let code = (body["data"] as? NSNumber)?.intValue ?? -1
-            log("Raw onError: \(code)")
-            delegate?.playerView(self, didReceiveYouTubeError: code)
-            
         case .time:
             guard let number = body["data"] as? NSNumber else { return }
             delegate?.playerView(self, didChangeCurrentTime: number.doubleValue)
+            
+        case .youtubeError:
+            let code = (body["data"] as? NSNumber)?.intValue ?? -1
+            log("Raw onError: \(code)")
+            delegate?.playerView(self, didFailWith: .youTube(code: code))
             
         case .scriptError:
             let message = body["data"] as? String ?? "Unknown JavaScript error"
@@ -494,7 +494,7 @@ private extension WWYouTubePlayerView {
     /// - Parameter error: 要記錄並回報的原始錯誤
     func report(_ error: Error) {
         log("Error: \(error.localizedDescription)")
-        delegate?.playerView(self, didFailWith: error)
+        delegate?.playerView(self, didFailWith: .script(error))
     }
     
     /// 在啟用除錯記錄時，將訊息輸出至 Console

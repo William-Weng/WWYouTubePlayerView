@@ -18,21 +18,10 @@ public enum PlayerViewError: LocalizedError {
     case invalidResult                      // 播放器回傳的資料不符合目前操作預期的格式或型別 (例如：查詢播放時間時，未取得可轉換為數值的結果)
 }
 
-// MARK: - LocalizedError
-public extension PlayerViewError {
-    
-    /// 錯誤的可讀文字說明。
-    ///
-    /// 提供各錯誤情況對應的描述，供錯誤顯示或除錯記錄使用。
-    var errorDescription: String? {
-        
-        switch self {
-        case .resourceNotFound: return "找不到播放器的 player.html 資源。"
-        case .configurationPlaceholderNotFound: return "player.html 缺少播放器設定的佔位符。"
-        case .missingBundleIdentifier: return "App 沒有 Bundle Identifier。"
-        case .invalidOrigin: return "無法由 Bundle Identifier 建立 origin URL。"
-        case .notReady: return "YouTube 播放器尚未準備完成。"
-        case .invalidResult: return "YouTube 播放器回傳了非預期的資料。"
-        }
-    }
+/// 播放器統一回報的錯誤
+public enum PlayerError: Error, Sendable {
+
+    case youTube(_ code: Int)               // YouTube IFrame API 的 `onError` 事件回傳的播放錯誤碼
+    case script(_ error: Error)             // APP手機端的 `JavaScript` 執行錯誤
 }
+

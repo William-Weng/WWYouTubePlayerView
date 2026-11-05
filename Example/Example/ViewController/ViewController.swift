@@ -41,12 +41,11 @@ extension ViewController: PlayerViewDelegate {
     func playerView(_ playerView: WWYouTubePlayerView, didChangeCurrentTime currentTime: Double) {
         print("Current time: \(currentTime)")
     }
-
-    func playerView(_ playerView: WWYouTubePlayerView, didReceiveYouTubeError code: Int) {
-        print("YouTube error code: \(code)")
-    }
-
-    func playerView(_ playerView: WWYouTubePlayerView, didFailWith error: Error) {
-        print("Player error: \(error.localizedDescription)")
+    
+    func playerView(_ playerView: WWYouTubePlayerView, didFailWith error: PlayerError) {
+        switch error {
+        case .youTube(let code): print("YouTube error code: \(code)")
+        case .script(let error): print("Player error: \(error.localizedDescription)")
+        }
     }
 }

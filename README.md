@@ -77,8 +77,7 @@ import WWYouTubePlayerView
 | `playerViewDidBecomeReady(_:)` | 播放器完成初始化並可接受指令時 | 此時 `isReady` 會變為 `true`，可以開始呼叫 `play()`、`pause()`、`seek(to:allowSeekAhead:)`、`currentTime(completion:)` 等方法。 |
 | `playerView(_:didChangeTo:)` | 播放狀態改變時 | 回傳目前的 `PlayerState`，例如播放中、暫停、緩衝、結束或影片已備妥。 |
 | `playerView(_:didChangeCurrentTime:)` | 目前播放時間更新時 | 回傳目前的播放位置，單位為秒。 |
-| `playerView(_:didReceiveYouTubeError:)` | YouTube IFrame Player 回報錯誤時 | 回傳 YouTube 原生錯誤代碼 `code`，可用於判斷影片無法播放、格式不支援或其他 YouTube 端錯誤。 |
-| `playerView(_:didFailWith:)` | 播放器發生一般錯誤時 | 回傳 `Error`；可能來源包括 HTML 模板讀取失敗、JSON 序列化失敗、origin URL 建立失敗、WebView 導覽錯誤、JavaScript 執行錯誤，或 WebView content process 終止。 |
+| `playerView(_:didFailWith:)` | 播放器發生錯誤時 | 回傳 `WWYouTubePlayerView.PlayerError`。`.youTube(code:)` 為 YouTube IFrame Player 回報的原生錯誤代碼；`.local(_:)` 為播放器封裝的本地錯誤，例如 origin URL 建立失敗或播放器尚未就緒；`.underlying(_:)` 為 HTML 模板讀取、JSON 序列化、WebView 導覽、JavaScript 執行或 WebView content process 終止等底層錯誤。 |
 
 - 需要第一次建立播放器、更換播放器設定，或希望完全重置播放器時，使用 `load(videoID:playerVars:)`。
 - 播放器已就緒，只是要切換影片時，使用 `loadVideo(videoID:startSeconds:)`。
@@ -120,13 +119,12 @@ extension ViewController: PlayerViewDelegate {
     func playerView(_ playerView: WWYouTubePlayerView, didChangeCurrentTime currentTime: Double) {
         print("Current time: \(currentTime)")
     }
-
-    func playerView(_ playerView: WWYouTubePlayerView, didReceiveYouTubeError code: Int) {
-        print("YouTube error code: \(code)")
-    }
-
-    func playerView(_ playerView: WWYouTubePlayerView, didFailWith error: Error) {
-        print("Player error: \(error.localizedDescription)")
+    
+    func playerView(_ playerView: WWYouTubePlayerView, didFailWith error: PlayerError) {
+        switch error {
+        case .youTube(let code): print("YouTube error code: \(code)")
+        case .script(let error): print("Player error: \(error.localizedDescription)")
+        }
     }
 }
 ```

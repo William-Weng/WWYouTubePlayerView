@@ -24,26 +24,6 @@ public protocol PlayerViewDelegate: AnyObject {
     ///   - playerView: 發出通知的播放器視圖
     ///   - state: 目前的播放狀態，例如播放中、暫停或緩衝中
     func playerView(_ playerView: WWYouTubePlayerView, didChangeTo state: PlayerState)
-
-    /// 播放器收到 YouTube IFrame API 回傳的播放錯誤
-    ///
-    /// 保留原始錯誤碼，讓呼叫端自行記錄或判斷處理方式；此錯誤碼不一定與播放器畫面上顯示的完整錯誤代碼相同
-    ///
-    /// - Parameters:
-    ///   - playerView: 發出通知的播放器視圖
-    ///   - code: YouTube IFrame API 的 `onError` 事件回傳的原始錯誤碼
-    func playerView(_ playerView: WWYouTubePlayerView, didReceiveYouTubeError code: Int)
-
-    /// 播放器發生載入、腳本執行或本地操作錯誤
-    ///
-    /// 例如來源設定無效、播放器尚未就緒、JavaScript 執行失敗，或 WebView 載入失敗
-    ///
-    /// YouTube IFrame API 的播放錯誤碼會透過 `playerView(_:didReceiveYouTubeError:)` 另外回報
-    ///
-    /// - Parameters:
-    ///   - playerView: 發出通知的播放器視圖
-    ///   - error: 發生的錯誤，可透過 `localizedDescription` 取得文字說明
-    func playerView(_ playerView: WWYouTubePlayerView, didFailWith error: Error)
     
     /// 播放器回報目前的播放時間
     ///
@@ -53,6 +33,13 @@ public protocol PlayerViewDelegate: AnyObject {
     ///   - playerView: 發出通知的播放器視圖
     ///   - seconds: 目前播放位置，以秒為單位
     func playerView(_ playerView: WWYouTubePlayerView, didChangeCurrentTime seconds: Double)
+    
+    /// 播放器發生錯誤時回報。
+    ///
+    /// - Parameters:
+    ///   - playerView: 發出通知的播放器視圖
+    ///   - error: 統一封裝的播放器錯誤
+    func playerView(_ playerView: WWYouTubePlayerView, didFailWith error: PlayerError)
 }
 
 // MARK: - 提供預設空實作，讓採用者只需處理關心的播放器事件
@@ -60,7 +47,6 @@ public extension PlayerViewDelegate {
 
     func playerViewDidBecomeReady(_ playerView: WWYouTubePlayerView) {}
     func playerView(_ playerView: WWYouTubePlayerView, didChangeTo state: PlayerState) {}
-    func playerView(_ playerView: WWYouTubePlayerView, didReceiveYouTubeError code: Int) {}
-    func playerView(_ playerView: WWYouTubePlayerView, didFailWith error: Error) {}
     func playerView(_ playerView: WWYouTubePlayerView, didChangeCurrentTime seconds: Double) {}
+    func playerView(_ playerView: WWYouTubePlayerView, didFailWith error: PlayerError) {}
 }

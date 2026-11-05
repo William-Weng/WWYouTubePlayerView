@@ -75,8 +75,7 @@ import WWYouTubePlayerView
 | `playerViewDidBecomeReady(_:)` | The player finishes initialization and can accept commands | `isReady` becomes `true`; you can then call methods such as `play()`, `pause()`, `seek(to:allowSeekAhead:)`, and `currentTime(completion:)`. |
 | `playerView(_:didChangeTo:)` | The playback state changes | Provides the current `PlayerState`, such as playing, paused, buffering, ended, or video cued. |
 | `playerView(_:didChangeCurrentTime:)` | The current playback time updates | Provides the current playback position in seconds. |
-| `playerView(_:didReceiveYouTubeError:)` | The YouTube IFrame Player reports an error | Provides the native YouTube error code (`code`), which can indicate an unplayable video, unsupported format, or another YouTube-side error. |
-| `playerView(_:didFailWith:)` | The player encounters a general error | Provides an `Error`; possible sources include failure to load the HTML template, JSON serialization failure, invalid origin URL creation, WebView navigation errors, JavaScript execution errors, or termination of the WebView content process. |
+| `playerView(_:didFailWith:)` | When the player reports an error | Returns a `WWYouTubePlayerView.PlayerError`. `.youTube(code:)` contains the native error code reported by the YouTube IFrame Player; `.local(_:)` represents a local error from the player wrapper, such as a failure to create the origin URL or the player not being ready; `.underlying(_:)` represents an underlying error, such as an HTML template loading failure, JSON serialization failure, WebView navigation error, JavaScript execution error, or WebView content process termination. |
 
 - Use `load(videoID:playerVars:)` when creating the player for the first time, changing player settings, or completely resetting the player.
 - Use `loadVideo(videoID:startSeconds:)` when the player is already ready and you only need to switch videos.
@@ -118,13 +117,12 @@ extension ViewController: PlayerViewDelegate {
     func playerView(_ playerView: WWYouTubePlayerView, didChangeCurrentTime currentTime: Double) {
         print("Current time: \(currentTime)")
     }
-
-    func playerView(_ playerView: WWYouTubePlayerView, didReceiveYouTubeError code: Int) {
-        print("YouTube error code: \(code)")
-    }
-
-    func playerView(_ playerView: WWYouTubePlayerView, didFailWith error: Error) {
-        print("Player error: \(error.localizedDescription)")
+    
+    func playerView(_ playerView: WWYouTubePlayerView, didFailWith error: PlayerError) {
+        switch error {
+        case .youTube(let code): print("YouTube error code: \(code)")
+        case .script(let error): print("Player error: \(error.localizedDescription)")
+        }
     }
 }
 ```

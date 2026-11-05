@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8198D4D9309C12BB009A1DBF /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 8198D4D8309C12BB009A1DBF /* WWYouTubePlayerView */; };
+		8198D4DC309C191A009A1DBF /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 8198D4DB309C191A009A1DBF /* WWYouTubePlayerView */; };
 		81C31918309B39BB00B916FD /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 81C31917309B39BB00B916FD /* WWYouTubePlayerView */; };
-		81C3191B309B3A6000B916FD /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 81C3191A309B3A6000B916FD /* WWYouTubePlayerView */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,8 +41,9 @@
 		812A749E307F5FC800287876 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
-				81C3191B309B3A6000B916FD /* WWYouTubePlayerView in Frameworks */,
+				8198D4D9309C12BB009A1DBF /* WWYouTubePlayerView in Frameworks */,
 				81C31918309B39BB00B916FD /* WWYouTubePlayerView in Frameworks */,
+				8198D4DC309C191A009A1DBF /* WWYouTubePlayerView in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -90,7 +92,8 @@
 			name = Example;
 			packageProductDependencies = (
 				81C31917309B39BB00B916FD /* WWYouTubePlayerView */,
-				81C3191A309B3A6000B916FD /* WWYouTubePlayerView */,
+				8198D4D8309C12BB009A1DBF /* WWYouTubePlayerView */,
+				8198D4DB309C191A009A1DBF /* WWYouTubePlayerView */,
 			);
 			productName = Example;
 			productReference = 812A74A1307F5FC800287876 /* Example.app */;
@@ -121,7 +124,7 @@
 			mainGroup = 812A7498307F5FC800287876;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				81C31919309B3A6000B916FD /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */,
+				8198D4DA309C191A009A1DBF /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 812A74A2307F5FC800287876 /* Products */;
@@ -367,24 +370,28 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		81C31919309B3A6000B916FD /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */ = {
+		8198D4DA309C191A009A1DBF /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/William-Weng/WWYouTubePlayerView";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 1.0.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		81C31917309B39BB00B916FD /* WWYouTubePlayerView */ = {
+		8198D4D8309C12BB009A1DBF /* WWYouTubePlayerView */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WWYouTubePlayerView;
 		};
-		81C3191A309B3A6000B916FD /* WWYouTubePlayerView */ = {
+		8198D4DB309C191A009A1DBF /* WWYouTubePlayerView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81C31919309B3A6000B916FD /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */;
+			package = 8198D4DA309C191A009A1DBF /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */;
+			productName = WWYouTubePlayerView;
+		};
+		81C31917309B39BB00B916FD /* WWYouTubePlayerView */ = {
+			isa = XCSwiftPackageProductDependency;
 			productName = WWYouTubePlayerView;
 		};
 /* End XCSwiftPackageProductDependency section */
