@@ -46,6 +46,7 @@ extension ViewController: WWYouTubePlayerViewDelegate {
     func playerView(_ playerView: WWYouTubePlayerView, didFailWith error: PlayerError) {
         switch error {
         case .youTube(let code): print("YouTube error code: \(code)")
+        case .webView(let error): print("WebView error: \(error.localizedDescription)")
         case .script(let error): print("Player error: \(error.localizedDescription)")
         }
     }

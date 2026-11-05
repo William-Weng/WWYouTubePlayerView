@@ -23,5 +23,6 @@ public enum PlayerError: Error, Sendable {
 
     case youTube(_ code: Int)               // YouTube IFrame API 的 `onError` 事件回傳的播放錯誤碼
     case script(_ error: Error)             // APP手機端的 `JavaScript` 執行錯誤
+    case webView(_ error: Error)            // `WebView`端相關錯誤
 }
 

@@ -62,8 +62,9 @@ public extension WWYouTubePlayerView {
     }
     
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        let error = NSError(domain: "WWYouTubePlayerView.WebKit", code: 1, userInfo: [NSLocalizedDescriptionKey: "WebView content process terminated. Reload the player."])
         isReady = false
-        report(NSError(domain: "WWYouTubePlayerView.WebKit", code: 1, userInfo: [NSLocalizedDescriptionKey: "WebView content process terminated. Reload the player."]))
+        report(.webView(error))
     }
 }
 
@@ -127,7 +128,7 @@ public extension WWYouTubePlayerView {
 
             newWebView.loadHTMLString(html, baseURL: origin)
         } catch {
-            report(error)
+            report(.webView(error))
         }
     }
 
@@ -356,7 +357,7 @@ private extension WWYouTubePlayerView {
         case .scriptError:
             let message = body["data"] as? String ?? "Unknown JavaScript error"
             let error = NSError(domain: "WWYouTubePlayerView.JavaScript", code: 1, userInfo: [NSLocalizedDescriptionKey: message])
-            report(error)
+            report(.webView(error))
         }
     }
     
@@ -423,7 +424,7 @@ private extension WWYouTubePlayerView {
         let nsError = error as NSError
         guard !(nsError.domain == NSURLErrorDomain && nsError.code == NSURLErrorCancelled) else { return }
 
-        report(error)
+        report(.webView(error))
     }
 }
 
@@ -464,10 +465,16 @@ private extension WWYouTubePlayerView {
     ///
     /// 即使關閉除錯記錄，仍會發送 delegate 錯誤通知
     ///
-    /// - Parameter error: 要記錄並回報的原始錯誤
-    func report(_ error: Error) {
-        log("Error: \(error.localizedDescription)")
-        delegate?.playerView(self, didFailWith: .script(error))
+    /// - Parameter error: 要記錄並回報的原始錯誤類似
+    func report(_ error: PlayerError) {
+        
+        switch error {
+        case .youTube(let code): log("Error Code: \(code)")
+        case .script(let error): log("Script Error: \(error.localizedDescription)")
+        case .webView(let error): log("WebView Error: \(error.localizedDescription)")
+        }
+        
+        delegate?.playerView(self, didFailWith: error)
     }
     
     /// 在啟用除錯記錄時，將訊息輸出至 Console
@@ -536,7 +543,7 @@ private extension WWYouTubePlayerView {
         evaluate(method: method.rawValue, arguments: arguments) { [weak self] result in
             switch result {
             case .success:onSuccess?()
-            case .failure(let error): self?.report(error)
+            case .failure(let error): self?.report(.script(error))
             }
         }
     }
