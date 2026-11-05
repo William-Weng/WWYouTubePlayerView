@@ -13,7 +13,7 @@ public final class WWYouTubePlayerView: UIView {
 
     private static var configurationPlaceholder: String { "__PLAYER_CONFIGURATION_JSON__" }
     
-    public weak var delegate: (any PlayerViewDelegate)?
+    public weak var delegate: (any WWYouTubePlayerViewDelegate)?
 
     public private(set) var isReady = false
     public private(set) var currentVideoId: String?

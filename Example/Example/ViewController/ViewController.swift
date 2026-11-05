@@ -29,7 +29,7 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController: PlayerViewDelegate {
+extension ViewController: WWYouTubePlayerViewDelegate {
 
     func playerViewDidBecomeReady(_ playerView: WWYouTubePlayerView) {
         playerView.play()

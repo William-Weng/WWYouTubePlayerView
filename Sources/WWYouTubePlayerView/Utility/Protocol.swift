@@ -9,7 +9,7 @@ import Foundation
 
 /// 接收 YouTube 播放器的就緒、播放狀態、錯誤及播放時間通知
 @MainActor
-public protocol PlayerViewDelegate: AnyObject {
+public protocol WWYouTubePlayerViewDelegate: AnyObject {
 
     /// 播放器已準備完成，可以接收播放控制與資訊查詢指令
     ///
@@ -43,7 +43,7 @@ public protocol PlayerViewDelegate: AnyObject {
 }
 
 // MARK: - 提供預設空實作，讓採用者只需處理關心的播放器事件
-public extension PlayerViewDelegate {
+public extension WWYouTubePlayerViewDelegate {
 
     func playerViewDidBecomeReady(_ playerView: WWYouTubePlayerView) {}
     func playerView(_ playerView: WWYouTubePlayerView, didChangeTo state: PlayerState) {}

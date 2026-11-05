@@ -68,7 +68,7 @@ import WWYouTubePlayerView
 
 ## 📡 Delegate
 
-`PlayerViewDelegate` receives events from the YouTube player, including player readiness, playback-state changes, current-time updates, and errors from YouTube or the WebView / JavaScript layer.
+`WWYouTubePlayerViewDelegate` receives events from the YouTube player, including player readiness, playback-state changes, current-time updates, and errors from YouTube or the WebView / JavaScript layer.
 
 ### Delegate Methods
 
@@ -110,7 +110,7 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController: PlayerViewDelegate {
+extension ViewController: WWYouTubePlayerViewDelegate {
 
     func playerViewDidBecomeReady(_ playerView: WWYouTubePlayerView) {
         playerView.play()

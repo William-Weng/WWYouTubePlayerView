@@ -70,7 +70,7 @@ import WWYouTubePlayerView
 
 ## 📡 Delegate 說明
 
-`PlayerViewDelegate` 用來接收 YouTube 播放器的事件，包括播放器就緒、播放狀態改變、目前播放時間更新，以及 YouTube 或 WebView / JavaScript 產生的錯誤。
+`WWYouTubePlayerViewDelegate` 用來接收 YouTube 播放器的事件，包括播放器就緒、播放狀態改變、目前播放時間更新，以及 YouTube 或 WebView / JavaScript 產生的錯誤。
 
 ### Delegate 方法
 
@@ -112,7 +112,7 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController: PlayerViewDelegate {
+extension ViewController: WWYouTubePlayerViewDelegate {
 
     func playerViewDidBecomeReady(_ playerView: WWYouTubePlayerView) {
         playerView.play()

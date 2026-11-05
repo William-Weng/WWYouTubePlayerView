@@ -12,7 +12,8 @@
 		8198D4E5309C29C5009A1DBF /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 8198D4E4309C29C5009A1DBF /* WWYouTubePlayerView */; };
 		8198D4EB309C30F7009A1DBF /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 8198D4EA309C30F7009A1DBF /* WWYouTubePlayerView */; };
 		8198D4F1309C349F009A1DBF /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 8198D4F0309C349F009A1DBF /* WWYouTubePlayerView */; };
-		8198D4F4309C34DD009A1DBF /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 8198D4F3309C34DD009A1DBF /* WWYouTubePlayerView */; };
+		8198D4F7309C35D2009A1DBF /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 8198D4F6309C35D2009A1DBF /* WWYouTubePlayerView */; };
+		8198D4FA309C362F009A1DBF /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 8198D4F9309C362F009A1DBF /* WWYouTubePlayerView */; };
 		81C31918309B39BB00B916FD /* WWYouTubePlayerView in Frameworks */ = {isa = PBXBuildFile; productRef = 81C31917309B39BB00B916FD /* WWYouTubePlayerView */; };
 /* End PBXBuildFile section */
 
@@ -45,12 +46,13 @@
 		812A749E307F5FC800287876 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
-				8198D4F4309C34DD009A1DBF /* WWYouTubePlayerView in Frameworks */,
+				8198D4F7309C35D2009A1DBF /* WWYouTubePlayerView in Frameworks */,
 				8198D4D9309C12BB009A1DBF /* WWYouTubePlayerView in Frameworks */,
 				81C31918309B39BB00B916FD /* WWYouTubePlayerView in Frameworks */,
 				8198D4F1309C349F009A1DBF /* WWYouTubePlayerView in Frameworks */,
 				8198D4E5309C29C5009A1DBF /* WWYouTubePlayerView in Frameworks */,
 				8198D4EB309C30F7009A1DBF /* WWYouTubePlayerView in Frameworks */,
+				8198D4FA309C362F009A1DBF /* WWYouTubePlayerView in Frameworks */,
 				8198D4DF309C1AFD009A1DBF /* WWYouTubePlayerView in Frameworks */,
 			);
 		};
@@ -105,7 +107,8 @@
 				8198D4E4309C29C5009A1DBF /* WWYouTubePlayerView */,
 				8198D4EA309C30F7009A1DBF /* WWYouTubePlayerView */,
 				8198D4F0309C349F009A1DBF /* WWYouTubePlayerView */,
-				8198D4F3309C34DD009A1DBF /* WWYouTubePlayerView */,
+				8198D4F6309C35D2009A1DBF /* WWYouTubePlayerView */,
+				8198D4F9309C362F009A1DBF /* WWYouTubePlayerView */,
 			);
 			productName = Example;
 			productReference = 812A74A1307F5FC800287876 /* Example.app */;
@@ -136,7 +139,7 @@
 			mainGroup = 812A7498307F5FC800287876;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				8198D4F2309C34DD009A1DBF /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */,
+				8198D4F8309C362F009A1DBF /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 812A74A2307F5FC800287876 /* Products */;
@@ -382,12 +385,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		8198D4F2309C34DD009A1DBF /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */ = {
+		8198D4F8309C362F009A1DBF /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/William-Weng/WWYouTubePlayerView";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 1.0.4;
+				minimumVersion = 1.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -413,9 +416,13 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = WWYouTubePlayerView;
 		};
-		8198D4F3309C34DD009A1DBF /* WWYouTubePlayerView */ = {
+		8198D4F6309C35D2009A1DBF /* WWYouTubePlayerView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8198D4F2309C34DD009A1DBF /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */;
+			productName = WWYouTubePlayerView;
+		};
+		8198D4F9309C362F009A1DBF /* WWYouTubePlayerView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8198D4F8309C362F009A1DBF /* XCRemoteSwiftPackageReference "WWYouTubePlayerView" */;
 			productName = WWYouTubePlayerView;
 		};
 		81C31917309B39BB00B916FD /* WWYouTubePlayerView */ = {
