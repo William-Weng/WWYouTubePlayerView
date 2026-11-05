@@ -48,7 +48,8 @@ import WWYouTubePlayerView
 ### 公開函數
 
 | 方法 | 用途 |
-|---|---|
+| --- | --- |
+| `parseVideoID(url:)` | 從完整的 YouTube 網址中解析並提取出 11 碼的 Video ID。 |
 | `load(videoID:playerVars:)` | 重新建立 WebView，並載入指定影片。 |
 | `loadVideo(videoID:startSeconds:)` | 在已就緒的播放器中載入影片，並嘗試播放。 |
 | `cueVideo(videoID:startSeconds:)` | 在已就緒的播放器中備妥影片，但不主動播放。 |
@@ -100,9 +101,13 @@ final class ViewController: UIViewController {
     }
     
     func initSetting() {
+        
         playerView.delegate = self
         playerView.debugLoggingEnabled = true
-        playerView.load(videoID: "dQw4w9WgXcQ", playerVars: [.autoplay: 0, .controls: 1, .playsInline: 0])
+        
+        if let videoID = WWYouTubePlayerView.parseVideoID(url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ") {
+            playerView.load(videoID: videoID, playerVars: [.autoplay: 0, .controls: 1, .playsInline: 0])
+        }
     }
 }
 

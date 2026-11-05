@@ -78,6 +78,18 @@ public extension WWYouTubePlayerView {
 // MARK: - 公開函式
 public extension WWYouTubePlayerView {
     
+    /// 從完整的 YouTube 網址中解析並提取出 11 碼的 Video ID
+    ///
+    /// - Parameter url: 要解析的 YouTube 網址字串（允許帶有前後空格或額外的追蹤參數）
+    /// - Returns: 成功提取則回傳 11 碼的影片 ID 字串（String）；若網址格式不符或解析失敗則回傳 `nil`
+    static func parseVideoID(url: String) -> String? {
+        url.extractYouTubeVideoID()
+    }
+}
+
+// MARK: - 公開函式
+public extension WWYouTubePlayerView {
+    
     /// 重新建立 WebView，並載入指定的 YouTube 影片
     ///
     /// 先建立來源識別 URL 與 HTML 內容，成功後才移除既有播放器，再建立並加入新的 WebView

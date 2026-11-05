@@ -18,13 +18,14 @@ final class ViewController: UIViewController {
         initSetting()
     }
     
-    // 呼叫 `load(videoID:playerVars:)` 後，必須等待 `playerViewDidBecomeReady(_:)`，才能執行播放控制或查詢播放資訊
-    //
-    // => https://www.youtube.com/watch?v=dQw4w9WgXcQ
     func initSetting() {
+        
         playerView.delegate = self
         playerView.debugLoggingEnabled = true
-        playerView.load(videoID: "dQw4w9WgXcQ", playerVars: [.autoplay: 0, .controls: 1, .playsInline: 0])
+        
+        if let videoID = WWYouTubePlayerView.parseVideoID(url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ") {
+            playerView.load(videoID: videoID, playerVars: [.autoplay: 0, .controls: 1, .playsInline: 0])
+        }
     }
 }
 

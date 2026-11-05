@@ -48,7 +48,8 @@ import WWYouTubePlayerView
 ### Public Methods
 
 | Method | Description |
-|---|---|
+| --- | --- |
+| `parseVideoID(url:)` | Parses and extracts the 11-character Video ID from a full YouTube URL. |
 | `load(videoID:playerVars:)` | Recreates the WebView and loads the specified video. |
 | `loadVideo(videoID:startSeconds:)` | Loads a video in an already-ready player and attempts to play it. |
 | `cueVideo(videoID:startSeconds:)` | Cues a video in an already-ready player without starting playback automatically. |
@@ -98,9 +99,13 @@ final class ViewController: UIViewController {
     }
     
     func initSetting() {
+        
         playerView.delegate = self
         playerView.debugLoggingEnabled = true
-        playerView.load(videoID: "dQw4w9WgXcQ", playerVars: [.autoplay: 0, .controls: 1, .playsInline: 0])
+        
+        if let videoID = WWYouTubePlayerView.parseVideoID(url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ") {
+            playerView.load(videoID: videoID, playerVars: [.autoplay: 0, .controls: 1, .playsInline: 0])
+        }
     }
 }
 

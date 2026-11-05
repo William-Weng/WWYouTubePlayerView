@@ -55,3 +55,43 @@ extension Bundle {
         return try String(contentsOf: url, encoding: .utf8)
     }
 }
+
+// MARK: - String
+extension String {
+    
+    /// 從 YouTube 網址中解析出 Video ID
+    ///
+    /// - Returns: 成功解析則返回 11 碼的 Video ID 字串，失敗則返回 nil
+    func extractYouTubeVideoID() -> String? {
+        
+        let trimmed = trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // 針對標準網址 => https://www.youtube.com/watch?v=dQw4w9WgXcQ
+        if let url = URL(string: trimmed), let queryItems = url.queryItems {
+            if let videoID = queryItems.first(where: { $0.name == "v" })?.value { return videoID }
+        }
+        
+        // 針對其他變體網址 => https://www.youtube.com/shorts/dQw4w9WgXcQ
+        let pattern = #"(?:youtu\.be\/|youtube\.com\/(?:v\/|embed\/|watch\?v=|shorts\/))([a-zA-Z0-9_-]{11})"#
+        
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) else { return nil }
+        
+        let range = NSRange(location: 0, length: trimmed.utf16.count)
+        
+        if let match = regex.firstMatch(in: trimmed, options: [], range: range) {
+            if let videoIDRange = Range(match.range(at: 1), in: trimmed) { return String(trimmed[videoIDRange]) }
+        }
+        
+        return nil
+    }
+}
+
+// MARK: - URL
+extension URL {
+    
+    /// 擴充 URL 屬性：方便直接從小寫的 URL 物件獲取 Query 參數陣列
+    var queryItems: [URLQueryItem]? {
+        guard let components = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return [] }
+        return components.queryItems
+    }
+}
