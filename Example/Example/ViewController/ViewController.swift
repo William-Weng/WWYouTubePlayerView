@@ -23,8 +23,8 @@ final class ViewController: UIViewController {
         playerView.delegate = self
         playerView.debugLoggingEnabled = true
         
-        if let videoID = WWYouTubePlayerView.parseVideoID(url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ") {
-            playerView.load(videoID: videoID, playerVars: [.autoplay: 0, .controls: 1, .playsInline: 0])
+        if let videoId = WWYouTubePlayerView.parseVideoID(url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ") {
+            playerView.load(videoId: videoId, playerVars: [.autoplay: 0, .controls: 1, .playsInline: 0])
         }
     }
 }

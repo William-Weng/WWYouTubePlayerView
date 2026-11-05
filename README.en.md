@@ -42,17 +42,18 @@ import WWYouTubePlayerView
 | --- | --- | --- |
 | `delegate` | `(any PlayerViewDelegate)?` | The delegate object for player events; receives player-ready notifications, playback-state changes, current-time updates, YouTube errors, and general WebView / JavaScript errors. |
 | `isReady` | `Bool` | Indicates whether the player has finished initialization and can accept commands. Playback controls and playback information queries are available only when this value is `true`. This property is `private(set)` and read-only. |
-| `currentVideoID` | `String?` | The YouTube video ID that is currently loaded or cued. It is updated after calling `load(videoID:playerVars:)`, `loadVideo(videoID:startSeconds:)`, or `cueVideo(videoID:startSeconds:)`. This property is `private(set)` and read-only. |
+| `currentvideoId` | `String?` | The YouTube video ID that is currently loaded or cued. It is updated after calling `load(videoId:playerVars:)`, `loadVideo(videoId:startSeconds:)`, or `cueVideo(videoId:startSeconds:)`. This property is `private(set)` and read-only. |
 | `debugLoggingEnabled` | `Bool` | Determines whether debug messages prefixed with `[WWYouTubePlayerView]` are printed to the Console. When set to `false`, debug logs are disabled, but errors are still reported through `delegate`. |
 
 ### Public Methods
 
 | Method | Description |
 | --- | --- |
-| `parseVideoID(url:)` | Parses and extracts the 11-character Video ID from a full YouTube URL. |
-| `load(videoID:playerVars:)` | Recreates the WebView and loads the specified video. |
-| `loadVideo(videoID:startSeconds:)` | Loads a video in an already-ready player and attempts to play it. |
-| `cueVideo(videoID:startSeconds:)` | Cues a video in an already-ready player without starting playback automatically. |
+| `parsevideoId(url:)` | Parses and extracts the 11-character Video ID from a full YouTube URL. |
+| `load(videoId:playerVars:)` | Recreates the WebView and loads the specified video. |
+| `removePlayer()` | Removes the current YouTube player and cleans up its related state and WebView resources. |
+| `loadVideo(videoId:startSeconds:)` | Loads a video in an already-ready player and attempts to play it. |
+| `cueVideo(videoId:startSeconds:)` | Cues a video in an already-ready player without starting playback automatically. |
 | `play()` | Requests that the player start or resume playing the current video. |
 | `pause()` | Requests that the player pause the current video. |
 | `stop()` | Requests that the player stop playback. |
@@ -78,9 +79,9 @@ import WWYouTubePlayerView
 | `playerView(_:didChangeCurrentTime:)` | The current playback time updates | Provides the current playback position in seconds. |
 | `playerView(_:didFailWith:)` | When the player reports an error | Returns a `WWYouTubePlayerView.PlayerError`. `.youTube(code:)` contains the native error code reported by the YouTube IFrame Player; `.local(_:)` represents a local error from the player wrapper, such as a failure to create the origin URL or the player not being ready; `.underlying(_:)` represents an underlying error, such as an HTML template loading failure, JSON serialization failure, WebView navigation error, JavaScript execution error, or WebView content process termination. |
 
-- Use `load(videoID:playerVars:)` when creating the player for the first time, changing player settings, or completely resetting the player.
-- Use `loadVideo(videoID:startSeconds:)` when the player is already ready and you only need to switch videos.
-- Use `cueVideo(videoID:startSeconds:)` when the player is already ready, but you want to prepare a video first and wait for user interaction before playing it.
+- Use `load(videoId:playerVars:)` when creating the player for the first time, changing player settings, or completely resetting the player.
+- Use `loadVideo(videoId:startSeconds:)` when the player is already ready and you only need to switch videos.
+- Use `cueVideo(videoId:startSeconds:)` when the player is already ready, but you want to prepare a video first and wait for user interaction before playing it.
 
 ## 🧪 [Usage Example](https://developer.apple.com/videos/play/wwdc2017/812/)
 
@@ -103,8 +104,8 @@ final class ViewController: UIViewController {
         playerView.delegate = self
         playerView.debugLoggingEnabled = true
         
-        if let videoID = WWYouTubePlayerView.parseVideoID(url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ") {
-            playerView.load(videoID: videoID, playerVars: [.autoplay: 0, .controls: 1, .playsInline: 0])
+        if let videoId = WWYouTubePlayerView.parseVideoID(url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ") {
+            playerView.load(videoId: videoId, playerVars: [.autoplay: 0, .controls: 1, .playsInline: 0])
         }
     }
 }
@@ -135,7 +136,7 @@ extension ViewController: PlayerViewDelegate {
 ## ⚠️ Important Notes
 
 - `WWYouTubePlayerView` is marked as `@MainActor`; use it on the main thread.
-- `load(videoID:playerVars:)` recreates the WebView, so it resets the player state.
+- `load(videoId:playerVars:)` recreates the WebView, so it resets the player state.
 - `loadVideo(...)` and `cueVideo(...)` can be used only after the player is ready.
 - Calling playback-control or query methods before the player is ready returns `PlayerViewError.notReady`.
 - The package uses the main app’s Bundle Identifier to create the origin URL. For example, `com.example.MyApp` becomes `https://com.example.myapp`.

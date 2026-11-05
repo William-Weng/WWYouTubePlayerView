@@ -5,7 +5,7 @@
 //  Created by William.Weng on 2026/11/4.
 //
 
-import Foundation
+import WebKit
 
 // MARK: - JSONSerialization
 extension JSONSerialization {
@@ -93,5 +93,37 @@ extension URL {
     var queryItems: [URLQueryItem]? {
         guard let components = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return [] }
         return components.queryItems
+    }
+}
+
+
+// MARK: - 建立 WKWebView
+extension WKWebView {
+    
+    /// 建立並設定供播放器使用的 WebView
+    ///
+    /// 預設使用黑色背景，停用捲動與彈性回彈，並透過 autoresizing mask 隨父視圖調整寬度與高度
+    ///
+    /// - Parameters:
+    ///   - target: 同時遵循 `WKNavigationDelegate` 與 `WKUIDelegate` 的事件處理對象
+    ///   - frame: WebView 的初始位置與尺寸
+    ///   - configuration: 建立 WebView 時使用的設定
+    /// - Returns: 已完成播放器基本設定的 WebView
+    static func maker(target: WKNavigationDelegate & WKUIDelegate, with frame: CGRect, configuration: WKWebViewConfiguration) -> WKWebView {
+        
+        let webView = WKWebView(frame: frame, configuration: configuration)
+        webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        webView.backgroundColor = .black
+        webView.isOpaque = false
+
+        webView.scrollView.backgroundColor = .black
+        webView.scrollView.isScrollEnabled = false
+        webView.scrollView.bounces = false
+
+        webView.navigationDelegate = target
+        webView.uiDelegate = target
+        
+        return webView
     }
 }

@@ -16,7 +16,7 @@ public final class WWYouTubePlayerView: UIView {
     public weak var delegate: (any PlayerViewDelegate)?
 
     public private(set) var isReady = false
-    public private(set) var currentVideoID: String?
+    public private(set) var currentVideoId: String?
 
     public var debugLoggingEnabled = false
 
@@ -101,15 +101,15 @@ public extension WWYouTubePlayerView {
     /// 發生錯誤時，會交由 `report(_:)` 統一記錄並通知 delegate
     ///
     /// - Parameters:
-    ///   - videoID: 要載入的 YouTube 影片 ID
+    ///   - videoId: 要載入的 YouTube 影片 ID
     ///   - playerVars: 播放器參數，預設為空字典；由 `makeHTML` 合併預設設定，並指定 App 的來源識別
-    func load(videoID: String, playerVars: [PlayerParameter: Any] = [:]) {
+    func load(videoId: String, playerVars: [PlayerParameter: Any] = [:]) {
         
         do {
             
             let rawPlayerVars: [String: Any] = Dictionary(uniqueKeysWithValues: playerVars.map { parameter, value in(parameter.rawValue, value)})
             let origin = try makeOriginURL()
-            let html = try Self.makeHTML(videoID: videoID, playerVars: rawPlayerVars, origin: origin)
+            let html = try Self.makeHTML(videoId: videoId, playerVars: rawPlayerVars, origin: origin)
 
             removePlayer()
 
@@ -117,13 +117,13 @@ public extension WWYouTubePlayerView {
             let newWebView = WKWebView.maker(target: self, with: bounds, configuration: configuration)
             
             webView = newWebView
-            currentVideoID = videoID
+            currentVideoId = videoId
             
             addSubview(newWebView)
 
             log("Bundle ID: \(Bundle.main.bundleIdentifier ?? "(nil)")")
             log("Origin: \(origin.absoluteString)")
-            log("Loading video: \(videoID)")
+            log("Loading video: \(videoId)")
 
             newWebView.loadHTMLString(html, baseURL: origin)
         } catch {
@@ -131,21 +131,13 @@ public extension WWYouTubePlayerView {
         }
     }
 
-    /// 重新建立播放器，並載入指定的 YouTube 影片
+    /// 移除目前的 YouTube 播放器，並清理相關狀態與 WebView 資源
     ///
-    /// 先建立來源識別 URL 與 HTML 內容，成功後才移除既有播放器，再建立新的 WebView 並載入 HTML
-    ///
-    /// 此方法會重新建立 WebView，不會保留既有播放器的播放進度與狀態；呼叫後仍須等待播放器的就緒通知，才能執行播放控制或資訊查詢
-    ///
-    /// 若來源建立、HTML 模板讀取或設定序列化失敗，會透過 `report(_:)` 回報錯誤，且不會移除既有播放器
-    ///
-    /// - Parameters:
-    ///   - videoID: 要載入的 YouTube 影片 ID
-    ///   - playerVars: 播放器參數，預設為空字典；由 `makeHTML` 合併預設設定，並指定 App 的來源識別
+    /// 此方法會重設播放器的就緒狀態與目前影片 ID，移除 JavaScript 訊息處理器、停止載入、解除 delegate 參考，並將 WebView 從視圖階層移除
     func removePlayer() {
         
         isReady = false
-        currentVideoID = nil
+        currentVideoId = nil
         
         guard let webView else { return }
         
@@ -204,7 +196,7 @@ public extension WWYouTubePlayerView {
         
         command(.loadVideoById, arguments: [argument]) { [weak self] in
             guard let self else { return }
-            self.currentVideoID = videoID
+            self.currentVideoId = videoID
         }
     }
 
@@ -223,7 +215,7 @@ public extension WWYouTubePlayerView {
         
         command(.cueVideoById, arguments: [argument]) { [weak self] in
             guard let self else { return }
-            self.currentVideoID = videoID
+            self.currentVideoId = videoID
         }
     }
 
@@ -281,56 +273,25 @@ public extension WWYouTubePlayerView {
     }
 }
 
-// MARK: - 建立 WKWebView
-private extension WKWebView {
-    
-    /// 建立並設定供播放器使用的 WebView
-    ///
-    /// 預設使用黑色背景，停用捲動與彈性回彈，並透過 autoresizing mask 隨父視圖調整寬度與高度
-    ///
-    /// - Parameters:
-    ///   - target: 同時遵循 `WKNavigationDelegate` 與 `WKUIDelegate` 的事件處理對象
-    ///   - frame: WebView 的初始位置與尺寸
-    ///   - configuration: 建立 WebView 時使用的設定
-    /// - Returns: 已完成播放器基本設定的 WebView
-    static func maker(target: WKNavigationDelegate & WKUIDelegate, with frame: CGRect, configuration: WKWebViewConfiguration) -> WKWebView {
-        
-        let webView = WKWebView(frame: frame, configuration: configuration)
-        webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-        webView.backgroundColor = .black
-        webView.isOpaque = false
-
-        webView.scrollView.backgroundColor = .black
-        webView.scrollView.isScrollEnabled = false
-        webView.scrollView.bounces = false
-
-        webView.navigationDelegate = target
-        webView.uiDelegate = target
-        
-        return webView
-    }
-}
-
 // MARK: - 代入HTML模板
 private extension WWYouTubePlayerView {
 
     /// 建立包含指定影片與播放器設定的完整 HTML (此方法會讀取 `player.html`，並將設定 JSON 代入模板)
     ///
     /// - Parameters:
-    ///   - videoID: 要載入的 YouTube 影片 ID
+    ///   - videoId: 要載入的 YouTube 影片 ID
     ///   - inputPlayerVars: 呼叫端指定的播放器參數，會覆蓋預設值
     ///   - origin: App 的來源識別 URL，不允許由播放器參數覆蓋
     /// - Returns: 已代入設定、可供 WebView 載入的 HTML 字串
     /// - Throws: JSON 序列化、模板讀取或佔位符驗證錯誤
-    static func makeHTML(videoID: String, playerVars inputPlayerVars: [String: Any], origin: URL) throws -> String {
+    static func makeHTML(videoId: String, playerVars inputPlayerVars: [String: Any], origin: URL) throws -> String {
 
         var playerVars: [String: Any] = ["playsinline": 1, "controls": 1, "autoplay": 0, "rel": 0]
 
         playerVars.merge(inputPlayerVars) { _, newValue in newValue }
         playerVars["origin"] = origin.absoluteString
 
-        let configuration: [String: Any] = ["width": "100%", "height": "100%", "videoId": videoID, "playerVars": playerVars ]
+        let configuration: [String: Any] = ["width": "100%", "height": "100%", "videoId": videoId, "playerVars": playerVars ]
         let configurationJSON = try JSONSerialization.configurationJSON(configuration)
         let template = try Bundle.module.loadHTMLTemplate(forResource: "player", withExtension: "html")
         let placeholder = configurationPlaceholder

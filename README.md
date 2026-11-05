@@ -42,25 +42,26 @@ import WWYouTubePlayerView
 | --- | --- | --- |
 | `delegate` | `(any PlayerViewDelegate)?` | 播放器事件的委派物件；可接收播放器就緒、播放狀態改變、目前播放時間更新、YouTube 錯誤與 WebView / JavaScript 等一般錯誤通知。 |
 | `isReady` | `Bool` | 播放器是否已完成初始化並可接受指令；只有其值為 `true` 時，才能執行播放控制或查詢播放資訊。此屬性為 `private(set)`，只能讀取。 |
-| `currentVideoID` | `String?` | 目前載入或備妥的 YouTube 影片 ID；呼叫 `load(videoID:playerVars:)`、`loadVideo(videoID:startSeconds:)` 或 `cueVideo(videoID:startSeconds:)` 後會更新。此屬性為 `private(set)`，只能讀取。 |
+| `currentvideoId` | `String?` | 目前載入或備妥的 YouTube 影片 ID；呼叫 `load(videoId:playerVars:)`、`loadVideo(videoId:startSeconds:)` 或 `cueVideo(videoId:startSeconds:)` 後會更新。此屬性為 `private(set)`，只能讀取。 |
 | `debugLoggingEnabled` | `Bool` | 是否在 Console 輸出以 `[WWYouTubePlayerView]` 為前綴的除錯訊息；設為 `false` 時不輸出記錄，但錯誤仍會透過 `delegate` 回報。 |
 
 ### 公開函數
 
 | 方法 | 用途 |
 | --- | --- |
-| `parseVideoID(url:)` | 從完整的 YouTube 網址中解析並提取出 11 碼的 Video ID。 |
-| `load(videoID:playerVars:)` | 重新建立 WebView，並載入指定影片。 |
-| `loadVideo(videoID:startSeconds:)` | 在已就緒的播放器中載入影片，並嘗試播放。 |
-| `cueVideo(videoID:startSeconds:)` | 在已就緒的播放器中備妥影片，但不主動播放。 |
+| `parsevideoId(url:)` | 從完整的 YouTube 網址中解析並提取出 11 碼的 Video ID。 |
+| `load(videoId:playerVars:)` | 重新建立 WebView，並載入指定影片。 |
+| `removePlayer()` | 移除目前的 YouTube 播放器，並清理相關狀態與 WebView 資源。 |
+| `loadVideo(videoId:startSeconds:)` | 在已就緒的播放器中載入影片，並嘗試播放。 |
+| `cueVideo(videoId:startSeconds:)` | 在已就緒的播放器中備妥影片，但不主動播放。 |
 | `play()` | 要求播放器開始或繼續播放目前的影片。 |
 | `pause()` | 要求播放器暫停目前的影片。 |
 | `stop()` | 要求播放器停止播放。 |
 | `mute()` | 要求播放器開啟靜音。 |
 | `unmute()` | 要求播放器關閉靜音。 |
 | `seek(to:allowSeekAhead:)` | 要求播放器跳轉至指定的播放時間。 |
-| `loadVideo(videoID:startSeconds:)` | 在目前已就緒的播放器中載入指定影片，並嘗試開始播放。 |
-| `cueVideo(videoID:startSeconds:)` | 在目前已就緒的播放器中備妥指定影片，不主動開始播放，不會重新建立 WebView 或重新載入 HTML 模板。 |
+| `loadVideo(videoId:startSeconds:)` | 在目前已就緒的播放器中載入指定影片，並嘗試開始播放。 |
+| `cueVideo(videoId:startSeconds:)` | 在目前已就緒的播放器中備妥指定影片，不主動開始播放，不會重新建立 WebView 或重新載入 HTML 模板。 |
 | `setVolume(_:)` | 要求播放器設定音量。 |
 | `setPlaybackRate(_:)` | 要求播放器設定播放速率。 |
 | `currentTime(completion:)` | 查詢目前的播放時間。 |
@@ -80,9 +81,9 @@ import WWYouTubePlayerView
 | `playerView(_:didChangeCurrentTime:)` | 目前播放時間更新時 | 回傳目前的播放位置，單位為秒。 |
 | `playerView(_:didFailWith:)` | 播放器發生錯誤時 | 回傳 `WWYouTubePlayerView.PlayerError`。`.youTube(code:)` 為 YouTube IFrame Player 回報的原生錯誤代碼；`.local(_:)` 為播放器封裝的本地錯誤，例如 origin URL 建立失敗或播放器尚未就緒；`.underlying(_:)` 為 HTML 模板讀取、JSON 序列化、WebView 導覽、JavaScript 執行或 WebView content process 終止等底層錯誤。 |
 
-- 需要第一次建立播放器、更換播放器設定，或希望完全重置播放器時，使用 `load(videoID:playerVars:)`。
-- 播放器已就緒，只是要切換影片時，使用 `loadVideo(videoID:startSeconds:)`。
-- 播放器已就緒，但希望先載入影片、等使用者操作後再播放時，使用 `cueVideo(videoID:startSeconds:)`。
+- 需要第一次建立播放器、更換播放器設定，或希望完全重置播放器時，使用 `load(videoId:playerVars:)`。
+- 播放器已就緒，只是要切換影片時，使用 `loadVideo(videoId:startSeconds:)`。
+- 播放器已就緒，但希望先載入影片、等使用者操作後再播放時，使用 `cueVideo(videoId:startSeconds:)`。
 
 ## 🧪 [使用範例](https://developer.apple.com/videos/play/wwdc2017/812/)
 
@@ -105,8 +106,8 @@ final class ViewController: UIViewController {
         playerView.delegate = self
         playerView.debugLoggingEnabled = true
         
-        if let videoID = WWYouTubePlayerView.parseVideoID(url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ") {
-            playerView.load(videoID: videoID, playerVars: [.autoplay: 0, .controls: 1, .playsInline: 0])
+        if let videoId = WWYouTubePlayerView.parseVideoID(url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ") {
+            playerView.load(videoId: videoId, playerVars: [.autoplay: 0, .controls: 1, .playsInline: 0])
         }
     }
 }
@@ -137,7 +138,7 @@ extension ViewController: PlayerViewDelegate {
 ## ⚠️ 注意事項
 
 - `WWYouTubePlayerView` 標記為 `@MainActor`，請在主執行緒使用。
-- `load(videoID:playerVars:)` 會重建 WebView，因此會重置播放器狀態。
+- `load(videoId:playerVars:)` 會重建 WebView，因此會重置播放器狀態。
 - `loadVideo(...)` 與 `cueVideo(...)` 只能在播放器就緒後使用。
 - 播放器就緒前呼叫播放控制或查詢方法，會得到 `PlayerViewError.notReady`。
 - 套件會使用主 App 的 Bundle Identifier 建立 origin URL，例如 `com.example.MyApp` 會轉為 `https://com.example.myapp`。
